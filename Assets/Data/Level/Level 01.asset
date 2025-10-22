@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d223145952b0b8b4eb3947c2327e2fd7, type: 3}
+  m_Name: Level 01
+  m_EditorClassIdentifier: 
+  levelLayout: {fileID: 4900000, guid: e614f613ed284cb4db88dfd23665e373, type: 3}
+  shootingTurtleLayout: {fileID: 4900000, guid: 43d5dac286635b441be0c431559e5f57, type: 3}
+  availableShootingTowers: 2

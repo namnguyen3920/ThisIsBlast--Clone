@@ -8,7 +8,6 @@ public class MovingState : ShootingTurtleBaseState
     public MovingState(ShootingTurtle turtle) : base(turtle) { }
     public override void Enter()
     {
-        Debug.Log("Entering Moving State");
         targetSpot = ShootingTurtleController.d_Instance.GetAvailableSpot();
         if (targetSpot == null)
         {
@@ -22,7 +21,6 @@ public class MovingState : ShootingTurtleBaseState
 
     public override void Execute()
     {
-        Debug.Log("Executing Moving State");
         turtle.transform.position = Vector3.Lerp(
            turtle.transform.position,
            targetPos,
@@ -30,7 +28,6 @@ public class MovingState : ShootingTurtleBaseState
 
         if (Vector3.Distance(turtle.transform.position, targetPos) < 0.05f)
         {
-            Debug.Log("Reached Target Position, switching to Shooting State");
             turtle.ChangeState(ShootingTurtle.TurtleStateType.SHOOTING);
         }
 
@@ -38,6 +35,5 @@ public class MovingState : ShootingTurtleBaseState
 
     public override void Exit()
     {
-        Debug.Log("Exiting Moving State");
     }
 }

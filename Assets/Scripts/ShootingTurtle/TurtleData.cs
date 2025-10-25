@@ -4,6 +4,6 @@ using UnityEngine;
 public class TurtleData : ScriptableObject
 {
     public ColorType turtleShootingType;
-    public float firingRate = 10f;
+    public float firingRate = 100f;
     public Color turtleModelColor;
 }

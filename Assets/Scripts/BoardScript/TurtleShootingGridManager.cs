@@ -23,6 +23,7 @@ public class TurtleShootingGridManager : Singleton_Mono_Method<TurtleShootingGri
     [Header("Mappings")]
     public List<ShootingTurtleMapping> turtleMappings;
 
+    public ShootingTurtleController controller;
     private class GridSlot
     {
         public Vector3 worldPosition;
@@ -35,21 +36,18 @@ public class TurtleShootingGridManager : Singleton_Mono_Method<TurtleShootingGri
     public List<ShootingTurtle> selectableTurtles { get; private set; } = new List<ShootingTurtle>();
     public void LoadLevelFromLayout(TextAsset layoutFile)
     {
-        // Xóa cũ
         foreach (Transform child in turtleHolder)
             Destroy(child.gameObject);
 
-        // Đọc layout
-        string[] rows = layoutFile.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        string[] rows = layoutFile.text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         gridRows = rows.Length;
         gridColumns = rows[0].Split('-').Length;
 
         grid = new GridSlot[gridColumns, gridRows];
         float totalWidth = (gridColumns - 1) * turtleSpacing;
         float totalHeight = (gridRows - 1) * turtleSpacing;
-        Vector3 offset = new Vector3(-totalWidth, 0, totalHeight / 4f);
+        Vector3 offset = new Vector3(-totalWidth * 0.5f, 0, totalHeight * 0.5f);
 
-        // Tạo grid & spawn turtle
         for (int y = 0; y < gridRows; y++)
         {
             string[] turtleCells = rows[y].Split('-');
@@ -67,7 +65,8 @@ public class TurtleShootingGridManager : Singleton_Mono_Method<TurtleShootingGri
                 Vector3 spawnPos = turtleHolder.position + offset + new Vector3(xPos, 0, zPos);
                 GameObject turtleObj = Instantiate(turtleShootingPrefab, spawnPos, Quaternion.identity, turtleHolder);
                 ShootingTurtle turtle = turtleObj.GetComponent<ShootingTurtle>();
-                turtle.Initialize(GetTurtleDataFromChar(turtleChar), turtleAmmo);
+                
+                turtle.Initialize(controller,GetTurtleDataFromChar(turtleChar), turtleAmmo);
 
                 grid[x, y] = new GridSlot { worldPosition = spawnPos, currentTurtle = turtle };
                 turtle.SetGridCoordinates(x, y);
@@ -111,6 +110,15 @@ public class TurtleShootingGridManager : Singleton_Mono_Method<TurtleShootingGri
 
         turtle.transform.position = targetPos;
     }
+    public void ClearAllTurtles()
+    {
+        foreach (Transform child in turtleHolder)
+        {
+            Destroy(child.gameObject);
+        }
+        grid = null;
+        gridRows = gridColumns = 0;
+    }
     private TurtleData GetTurtleDataFromChar(char character)
     {
         foreach (var mapping in turtleMappings)
@@ -124,10 +132,8 @@ public class TurtleShootingGridManager : Singleton_Mono_Method<TurtleShootingGri
     }
     public bool IsTopRowTurtle(ShootingTurtle turtle)
     {
-        Debug.Log($"Turtle at ({turtle.gridX}, {turtle.gridY})");
         if (turtle.gridY == 0)
         {
-            Debug.Log("Turtle is in the top row.");
             return true;
         }
         return false;

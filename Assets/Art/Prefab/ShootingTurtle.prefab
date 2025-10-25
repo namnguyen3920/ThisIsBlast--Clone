@@ -303,6 +303,7 @@ Transform:
   - {fileID: 2546152898036464207}
   - {fileID: 4885555761394932664}
   - {fileID: 1780722619686518776}
+  - {fileID: 4168752428790021708}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4254065323833635735
@@ -320,6 +321,8 @@ MonoBehaviour:
   currentStateType: 0
   ammoCount: 10
   ammoText: {fileID: 2593520748186077936}
+  gridX: 0
+  gridY: 0
   projectilePrefab: {fileID: 5712317762459456451, guid: 52591432cd83a1b40b6f2a16eecacfcf, type: 3}
   firePoint: {fileID: 1780722619686518776}
 --- !u!65 &2329730128892217718
@@ -343,6 +346,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3821618077827696748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4168752428790021708}
+  m_Layer: 0
+  m_Name: Effector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4168752428790021708
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3821618077827696748}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8445860464015791805}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2656976374353763748
 PrefabInstance:
   m_ObjectHideFlags: 0

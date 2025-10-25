@@ -1,21 +1,28 @@
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class ShootingTurtle : MonoBehaviour
 {
+    public ShootingTurtleController controller;
+    public List<CubeController> targetList = new();
     public enum TurtleStateType { IDLE, MOVING, SHOOTING, END }
 
+    [Header("Turtle Properties")]
     public TurtleStateType currentStateType;
     public TurtleData assignedData { get; private set; }
     public int ammoCount;
     [SerializeField] private TextMeshProUGUI ammoText;
-    public GameObject projectilePrefab;
+
+    [Header("Coordinates")]
+    public int gridX;
+    public int gridY;
+
+    [Header("Shooting Properties")]
     public Transform firePoint;
 
     private IShootingTurtleState currentState;
     private Renderer modelRender;
-    public int gridX;
-    public int gridY;
     private void Awake()
     {
         modelRender = GetComponentInChildren<Renderer>();
@@ -24,8 +31,9 @@ public class ShootingTurtle : MonoBehaviour
     {
         currentState?.Execute();
     }
-    public void Initialize(TurtleData data, int turtleAmmo)
+    public void Initialize(ShootingTurtleController ctrl, TurtleData data, int turtleAmmo)
     {
+        controller = ctrl;
         assignedData = data;
         ammoCount = turtleAmmo;
         ammoText.text = ammoCount.ToString();
@@ -58,18 +66,28 @@ public class ShootingTurtle : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        Debug.Log($"You clicked on {gameObject.name}");
         if (!ShootingTurtleController.d_Instance.HasAvailableSpot()) return;
+        UIManager.d_Instance.ShowTutorialPanel(false);
         if (currentStateType == TurtleStateType.IDLE)
         {
             if (TurtleShootingGridManager.d_Instance.IsTopRowTurtle(this))
             {
                 TurtleShootingGridManager.d_Instance.OnTurtleSelected(this);
+                AudioManager.d_Instance.PlayPickTurtleSound(this.transform.position);
                 ChangeState(TurtleStateType.MOVING);
             }
-            
-            
         }
+    }
+    public bool HasValidTarget()
+    {
+        foreach (var cube in BoardManager.d_Instance.topRowCubes)
+        {
+            if (cube != null && cube.gameObject.activeInHierarchy && cube.currentType == this.assignedData.turtleShootingType)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public void ConsumeAmmo()
     {
